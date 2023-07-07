@@ -11,7 +11,7 @@ spec:
   {{- if eq .Values.route.enabled true }}
   type: ClusterIP
   {{- else if eq .Values.loadbalancer.enabled true }}
-  type: LoadBalanncer
+  type: LoadBalancer
   {{- else if eq .Values.nodeport.enabled true }}
   type: NodePort
   {{- end }}
