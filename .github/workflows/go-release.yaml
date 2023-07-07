@@ -28,7 +28,7 @@ env:
   # Common versions
   GO_VERSION: '1.20'
   GO_REQUIRED_MIN_VERSION: ''
-  GOPATH: '/home/runner/work/reedjosh/multicluster-controlplane/go'
+  GOPATH: '/home/runner/work/multicluster-controlplane/multicluster-controlplane/go'
   GITHUB_REF: ${{ github.ref }}
   CHART_NAME: 'multicluster-controlplane'
 
