@@ -28,7 +28,7 @@ env:
   # Common versions
   GO_VERSION: '1.20'
   GO_REQUIRED_MIN_VERSION: ''
-  GOPATH: '/home/runner/work/multicluster-controlplane/multicluster-controlplane/go'
+  GOPATH: '/home/runner/work/reedjosh/multicluster-controlplane/go'
   GITHUB_REF: ${{ github.ref }}
   CHART_NAME: 'multicluster-controlplane'
 
@@ -88,10 +88,10 @@ jobs:
           IMAGE_TAG=${{ needs.env.outputs.RELEASE_VERSION }}-${{ matrix.arch }} \
           IMAGE_BUILD_EXTRA_FLAGS="--build-arg OS=linux --build-arg ARCH=${{ matrix.arch }}" \
             make image
-      - name: Log in to the Container registry
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: push
