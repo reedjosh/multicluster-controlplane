@@ -1,3 +1,32 @@
+env:
+
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+
+
+
+
 name: GoRelease
 
 on:
@@ -37,6 +66,8 @@ jobs:
         run: |
           cat ./charts/multicluster-controlplane/Chart.yaml | grep -q 'version: ${{ env.TRIMED_RELEASE_VERSION }}'
     outputs:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
       MAJOR_RELEASE_VERSION: ${{ env.MAJOR_RELEASE_VERSION }}
       RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
       TRIMED_RELEASE_VERSION: ${{ env.TRIMED_RELEASE_VERSION }}
@@ -66,10 +97,15 @@ jobs:
           IMAGE_TAG=${{ needs.env.outputs.RELEASE_VERSION }}-${{ matrix.arch }} \
           IMAGE_BUILD_EXTRA_FLAGS="--build-arg OS=linux --build-arg ARCH=${{ matrix.arch }}" \
             make image
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: push
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login quay.io --username ${{ secrets.DOCKER_USER }} --password-stdin
-          docker push quay.io/open-cluster-management/multicluster-controlplane:${{ needs.env.outputs.RELEASE_VERSION }}-${{ matrix.arch }}
+          docker push ghcr.io/rejoshed/multicluster-controlplane:${{ needs.env.outputs.RELEASE_VERSION }}-${{ matrix.arch }}
   image-manifest:
     name: image manifest
     runs-on: ubuntu-latest
