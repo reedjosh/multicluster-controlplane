@@ -16,7 +16,7 @@ RUN GOOS=${OS} \
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 ENV USER_UID=10001
+USER ${USER_UID}
 
 COPY --from=builder /go/src/open-cluster-management.io/multicluster-controlplane/bin/multicluster-controlplane /
-
-USER ${USER_UID}
+RUN mkdir /.ocm/cert
