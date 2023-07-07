@@ -19,4 +19,4 @@ ENV USER_UID=10001
 USER ${USER_UID}
 
 COPY --from=builder /go/src/open-cluster-management.io/multicluster-controlplane/bin/multicluster-controlplane /
-RUN mkdir /.ocm/cert
+RUN mkdir -p /.ocm/cert
