@@ -6,7 +6,7 @@ KUSTOMIZE?=kustomize
 
 HUB_NAME?=multicluster-controlplane
 
-IMAGE_REGISTRY?=ghcr.io/rejoshed
+IMAGE_REGISTRY?=ghcr.io/reedjosh
 IMAGE_TAG?=latest
 export IMAGE_NAME?=$(IMAGE_REGISTRY)/multicluster-controlplane:$(IMAGE_TAG)
 
