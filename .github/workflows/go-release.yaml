@@ -97,17 +97,6 @@ jobs:
       - name: push
         run: |
           docker push ghcr.io/reedjosh/multicluster-controlplane:${{ needs.env.outputs.RELEASE_VERSION }}-${{ matrix.arch }}
----
-name: Release Charts
-
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'charts/**'
-
-jobs:
   release-chart:
     name: Release Chart
     runs-on: ubuntu-latest
