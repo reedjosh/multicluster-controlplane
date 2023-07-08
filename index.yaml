@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  multicluster-controlplane:
+  - apiVersion: v2
+    appVersion: 0.0.3
+    created: "2023-07-08T03:05:22.491032906Z"
+    description: A Helm chart for multicluster-controlplane
+    digest: 9ca2c58a3c17cef1056b3caf9e18761906b0eacd93abfe188344e464b9d51cee
+    name: multicluster-controlplane
+    type: application
+    urls:
+    - https://github.com/reedjosh/multicluster-controlplane/releases/download/multicluster-controlplane-0.0.3/multicluster-controlplane-0.0.3.tgz
+    version: 0.0.3
+generated: "2023-07-08T03:05:22.491039306Z"
