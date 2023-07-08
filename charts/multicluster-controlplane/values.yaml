@@ -43,4 +43,4 @@ loadbalancer:
 
 nodeport:
   enabled: false
-  port: 30443
+  port: 30444
