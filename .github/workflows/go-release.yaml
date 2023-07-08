@@ -98,30 +98,28 @@ jobs:
         run: |
           docker push ghcr.io/reedjosh/multicluster-controlplane:${{ needs.env.outputs.RELEASE_VERSION }}-${{ matrix.arch }}
   release-chart:
-    name: Release Chart
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     needs: [ env ]
     steps:
-      - name: checkout code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 1
-          path: go/src/open-cluster-management.io/multicluster-controlplane
-      - name: setup helm
-        uses: azure/setup-helm@v1
-      - name: chart package
+          fetch-depth: 0
+
+      - name: Configure Git
         run: |
-          mkdir -p release
-          pushd release
-          helm package ../charts/${{ env.CHART_NAME }}/
-          popd
-      - name: publish release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ env.RELEASE_VERSION }}
-          artifacts: "go/src/open-cluster-management.io/multicluster-controlplane/release/*.tgz"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          allowUpdates: true
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.6.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   # image-manifest:
   #   name: image manifest
   #   runs-on: ubuntu-latest

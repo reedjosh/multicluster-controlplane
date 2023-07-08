@@ -8,7 +8,7 @@ WORKDIR ${DIRPATH}
 
 COPY . .
 
-#RUN apt-get update && apt-get install net-tools && make vendor 
+# RUN apt-get update && apt-get install net-tools && make vendor 
 RUN GOOS=${OS} \
     GOARCH=${ARCH} \
     make build
@@ -16,7 +16,7 @@ RUN GOOS=${OS} \
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 ENV USER_UID=10001
-USER ${USER_UID}
 
 COPY --from=builder /go/src/open-cluster-management.io/multicluster-controlplane/bin/multicluster-controlplane /
-RUN mkdir -p /.ocm/cert
+
+USER ${USER_UID}
