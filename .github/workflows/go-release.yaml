@@ -112,6 +112,8 @@ jobs:
         uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          charts_repo_url: https://github.com/reedjosh/multicluster-controlplane
   # image-manifest:
   #   name: image manifest
   #   runs-on: ubuntu-latest
